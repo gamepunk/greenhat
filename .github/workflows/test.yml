@@ -52,6 +52,9 @@ jobs:
       - name: Run Forge tests
         run: forge test -vvv
 
+      - name: Check gas snapshot
+        run: forge snapshot --check
+
   coverage:
     name: Coverage
     runs-on: ubuntu-latest

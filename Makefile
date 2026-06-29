@@ -34,6 +34,12 @@ test:
 test-gas:
 	FOUNDRY_PROFILE=ci forge test --gas-report
 
+gas-snapshot:
+	FOUNDRY_PROFILE=ci forge snapshot
+
+gas-check:
+	FOUNDRY_PROFILE=ci forge snapshot --check
+
 coverage:
 	FOUNDRY_PROFILE=ci forge coverage --report summary
 	FOUNDRY_PROFILE=ci forge coverage --report lcov
