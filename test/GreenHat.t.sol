@@ -12,8 +12,8 @@ contract GreenHatTest is Test {
     address public bob     = makeAddr("bob");
     address public dex     = makeAddr("dexPair");
 
-    uint256 public constant MAX_SUPPLY = 1_000_000_000 * 10 ** 18;
-    uint256 public constant ONE_TOKEN  = 10 ** 18;
+    uint256 public constant MAX_SUPPLY = 21_000_000 * 10 ** 4;
+    uint256 public constant ONE_TOKEN  = 10 ** 4;
     uint256 public constant DEFAULT_MAX_WALLET = MAX_SUPPLY * 2 / 100; // 2%
     uint256 public constant DEFAULT_MAX_TX    = MAX_SUPPLY * 1 / 100; // 1%
 
@@ -29,7 +29,7 @@ contract GreenHatTest is Test {
     function test_Deployment() public view {
         assertEq(token.name(), "GreenHat");
         assertEq(token.symbol(), "GREEN");
-        assertEq(token.decimals(), 18);
+        assertEq(token.decimals(), 4);
         assertEq(token.totalSupply(), MAX_SUPPLY);
         assertEq(token.MAX_SUPPLY(), MAX_SUPPLY);
         assertEq(token.owner(), deployer);

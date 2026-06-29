@@ -13,8 +13,14 @@ contract GreenHat is ERC20, Ownable {
     //  Constants
     // ═══════════════════════════════════════════════════════════════
 
-    /// @notice Maximum token supply (1 billion)
-    uint256 public constant MAX_SUPPLY = 1_000_000_000 * 10 ** 18;
+    /// @notice Maximum token supply (21 million)
+    uint256 public constant MAX_SUPPLY = 21_000_000 * 10 ** 4;
+
+    /// @notice Token decimals (4 = minimum unit 0.0001)
+    /// @dev Override ERC20 default 18 to match real-world currency feel
+    function decimals() public view virtual override returns (uint8) {
+        return 4;
+    }
 
     // ═══════════════════════════════════════════════════════════════
     //  Anti-Whale Limits

@@ -16,7 +16,7 @@ contract GreenHatInvariants is Test {
     address public alice = makeAddr("alice");
     address public bob = makeAddr("bob");
 
-    uint256 public constant MAX_SUPPLY = 1_000_000_000 * 10 ** 18;
+    uint256 public constant MAX_SUPPLY = 21_000_000 * 10 ** 4;
 
     // ── Setup: deploy and fund some addresses ──
     function setUp() public {
@@ -25,9 +25,9 @@ contract GreenHatInvariants is Test {
 
         // Fund alice and bob so they have tokens to play with
         vm.prank(deployer);
-        token.transfer(alice, 10_000 * 10 ** 18);
+        token.transfer(alice, 10_000 * 10 ** 4);
         vm.prank(deployer);
-        token.transfer(bob, 5_000 * 10 ** 18);
+        token.transfer(bob, 5_000 * 10 ** 4);
 
         // Remove alice and bob from exclusions so limits apply
         vm.prank(deployer);

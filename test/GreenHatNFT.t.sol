@@ -13,7 +13,7 @@ contract GreenHatNFTTest is Test {
     address public alice = makeAddr("alice");
     address public bob = makeAddr("bob");
 
-    uint256 public constant ONE_TOKEN = 10 ** 18;
+    uint256 public constant ONE_TOKEN = 10 ** 4;
 
     // Tier thresholds
     uint256 public constant BRONZE  = 1_000 * ONE_TOKEN;

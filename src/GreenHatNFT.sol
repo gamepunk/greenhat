@@ -25,10 +25,10 @@ contract GreenHatNFT is ERC721, ERC721URIStorage, Ownable {
     }
 
     /// @notice Minimum GREEN holdings required for each tier
-    uint256 public constant BRONZE_THRESHOLD  = 1_000 * 10 ** 18;
-    uint256 public constant SILVER_THRESHOLD  = 10_000 * 10 ** 18;
-    uint256 public constant GOLD_THRESHOLD    = 100_000 * 10 ** 18;
-    uint256 public constant DIAMOND_THRESHOLD = 1_000_000 * 10 ** 18;
+    uint256 public constant BRONZE_THRESHOLD  = 1_000 * 10 ** 4;
+    uint256 public constant SILVER_THRESHOLD  = 10_000 * 10 ** 4;
+    uint256 public constant GOLD_THRESHOLD    = 100_000 * 10 ** 4;
+    uint256 public constant DIAMOND_THRESHOLD = 1_000_000 * 10 ** 4;
 
     // ═══════════════════════════════════════════════════════════════
     //  State

@@ -117,7 +117,7 @@ export default function Home() {
       const hash = await wc.writeContract({
         address: GREENHAT_ADDRESS, abi: GREENHAT_ABI,
         functionName: "transfer",
-        args: [to as `0x${string}`, parseUnits(amount, 18)],
+        args: [to as `0x${string}`, parseUnits(amount, 4)],
         account,
       });
       setTxHash(hash);
@@ -156,7 +156,7 @@ export default function Home() {
   }, [account]);
 
   // ── Format helpers ──
-  const fmt = (v: bigint) => formatUnits(v, 18);
+  const fmt = (v: bigint) => formatUnits(v, 4);
   const short = (addr: `0x${string}`) => `${addr.slice(0, 6)}...${addr.slice(-4)}`;
 
   return (

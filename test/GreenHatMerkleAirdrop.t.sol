@@ -21,9 +21,9 @@ contract GreenHatMerkleAirdropTest is Test {
     bytes32[] public aliceProof;
     bytes32[] public bobProof;
 
-    uint256 public constant ALICE_AMOUNT = 1000 * 10 ** 18;
-    uint256 public constant BOB_AMOUNT = 2000 * 10 ** 18;
-    uint256 public constant AIRDROP_TOTAL = 3000 * 10 ** 18;
+    uint256 public constant ALICE_AMOUNT = 1000 * 10 ** 4;
+    uint256 public constant BOB_AMOUNT = 2000 * 10 ** 4;
+    uint256 public constant AIRDROP_TOTAL = 3000 * 10 ** 4;
 
     function setUp() public {
         vm.prank(deployer);

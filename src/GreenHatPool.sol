@@ -47,12 +47,8 @@ contract GreenHatPool is Ownable {
         uint256 greenOut = (msg.value * greenReserve) / (polReserve + msg.value);
         if (greenOut < minGreenOut) revert InsufficientOutput();
 
-        (bool ok, ) = msg.sender.call{value: msg.value}("");
-        require(ok, "POL refund failed?");
-        // Refund failed, but continue
-
-        bool ok2 = green.transfer(msg.sender, greenOut);
-        require(ok2, "GREEN transfer failed");
+        bool ok = green.transfer(msg.sender, greenOut);
+        require(ok, "GREEN transfer failed");
 
         polReserve += msg.value;
         greenReserve -= greenOut;
@@ -70,11 +66,13 @@ contract GreenHatPool is Ownable {
         bool ok = green.transferFrom(msg.sender, address(this), greenIn);
         require(ok, "GREEN transfer failed");
 
+        // CEI: Update reserves BEFORE external POL transfer to prevent reentrancy
+        greenReserve += greenIn;
+        polReserve -= polOut;
+
         (bool ok2, ) = msg.sender.call{value: polOut}("");
         require(ok2, "POL transfer failed");
 
-        greenReserve += greenIn;
-        polReserve -= polOut;
         emit Swapped(msg.sender, false, greenIn, polOut);
     }
 
