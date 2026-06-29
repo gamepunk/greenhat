@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.24;
 
 import {ERC721} from "openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
 import {ERC721URIStorage} from "openzeppelin-contracts/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import {Ownable} from "openzeppelin-contracts/contracts/access/Ownable.sol";
 import {IERC20} from "openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 
-/// @title GreenHatNFT — 🧢 Hat Collection
+/// @title GreenHatNFT - Hat Collection
 /// @notice Hold GREEN tokens to unlock exclusive NFT hats
 /// @dev Balance-based tier system: more GREEN → rarer hat
 /// @author GreenHat Team

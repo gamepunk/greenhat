@@ -29,6 +29,9 @@ node_modules/
 slither.db.json
 crytic-export/
 
+# Generated metadata (regenerate via scripts/generate_hats.py)
+assets/metadata/
+
 # Coverage reports
 lcov.info
 coverage/

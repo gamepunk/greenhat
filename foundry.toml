@@ -8,13 +8,13 @@ via_ir = false
 
 [profile.ci]
 # CI: matches production behavior for reliable gas snapshots
-solc = "0.8.20"
+solc = "0.8.24"
 optimizer = true
 optimizer_runs = 10_000
 
 [profile.production]
 # Production: full optimization for minimal gas cost
-solc = "0.8.20"
+solc = "0.8.24"
 optimizer = true
 optimizer_runs = 10_000
 via_ir = false
