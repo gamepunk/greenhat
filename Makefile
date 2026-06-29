@@ -52,11 +52,19 @@ fmt:
 fmt-check:
 	forge fmt --check
 
+# ─── Docs ─────────────────────────────────────────────────────────
+
+docs:
+	forge doc -b
+
+docs-serve:
+	forge doc -b -s
+
 # ─── Clean ───────────────────────────────────────────────────────
 
 clean:
 	forge clean
-	rm -rf coverage/ lcov.info
+	rm -rf coverage/ lcov.info docs/book/ docs/src/
 
 # ─── Deploy: Testnets ────────────────────────────────────────────
 

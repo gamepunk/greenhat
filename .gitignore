@@ -32,3 +32,7 @@ crytic-export/
 # Coverage reports
 lcov.info
 coverage/
+
+# Generated docs (forge doc) — keep config, ignore built content
+docs/book/
+docs/src/

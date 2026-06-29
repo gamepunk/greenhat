@@ -29,18 +29,18 @@ script/
 
 ## 功能特性
 
-### 🛡️ 反鲸鱼机制
+### 反鲸鱼机制
 | 限制 | 默认值 |
 |------|--------|
 | **最大持仓** | 总供应量的 2% |
 | **最大交易** | 总供应量的 1% |
 
-### 🔒 安全功能
+### 安全功能
 - **黑名单** — 封禁恶意地址
 - **交易暂停** — 紧急情况下停止交易
 - **DEX 对排除** — 交易对地址不受持仓/交易限制
 
-### � 安全状态
+### 安全状态
 | 项目 | 状态 |
 |------|:----:|
 | Slither 静态分析 | ✅ 0 个问题 |
@@ -48,7 +48,7 @@ script/
 | Forge Fuzz 测试 | ✅ 256 runs/ case |
 | 第三方审计 | ⏸️ 个人项目，暂无计划 |
 
-### �👑 所有权
+### 所有权
 - 标准 `Ownable`（单步转移）
 - 无铸币功能（供应量固定）
 - **无税收** — 纯粹的转账体验
@@ -152,6 +152,18 @@ $ cast send <TOKEN_ADDRESS> "setLimits(uint256,uint256)" <MAX_WALLET> <MAX_TX> \
 - `setTradingPaused(bool)` — 暂停/恢复交易
 - `excludeFromLimits(address, bool)` — 排除管理
 - `transferOwnership(address)` — 所有权转移
+
+## 文档站点
+
+NatSpec 注释会自动生成文档站点：
+
+```shell
+# 生成静态文档
+make docs
+
+# 本地预览（浏览器打开 http://localhost:3000）
+make docs-serve
+```
 
 ## License
 
