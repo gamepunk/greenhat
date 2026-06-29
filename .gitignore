@@ -28,3 +28,7 @@ node_modules/
 # Slither
 slither.db.json
 crytic-export/
+
+# Coverage reports
+lcov.info
+coverage/
