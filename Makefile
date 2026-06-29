@@ -17,23 +17,26 @@
 .DEFAULT_GOAL := test
 
 # ─── Env ─────────────────────────────────────────────────────────
-include .env
+-include .env
 export
 
 # ─── Build & Test ────────────────────────────────────────────────
 
 build:
-	forge build --sizes
+	FOUNDRY_PROFILE=ci forge build --sizes
 
-test: build
-	forge test -vvv
+build-production:
+	FOUNDRY_PROFILE=production forge build --sizes
+
+test:
+	FOUNDRY_PROFILE=ci forge test -vvv
 
 test-gas:
-	forge test --gas-report
+	FOUNDRY_PROFILE=ci forge test --gas-report
 
 coverage:
-	forge coverage --report summary
-	forge coverage --report lcov
+	FOUNDRY_PROFILE=ci forge coverage --report summary
+	FOUNDRY_PROFILE=ci forge coverage --report lcov
 
 # ─── Code Quality ────────────────────────────────────────────────
 
@@ -57,8 +60,8 @@ clean:
 
 # ─── Deploy: Testnets ────────────────────────────────────────────
 
-deploy-sepolia: build
-	forge script script/GreenHat.s.sol:GreenHatScript \
+deploy-sepolia: build-production
+	FOUNDRY_PROFILE=production forge script script/GreenHat.s.sol:GreenHatScript \
 		--rpc-url $(SEPOLIA_RPC_URL) \
 		--private-key $(DEPLOYER_PRIVATE_KEY) \
 		--broadcast --verify \
@@ -66,8 +69,8 @@ deploy-sepolia: build
 		--delay 10 \
 		--retries 3
 
-deploy-base-sepolia: build
-	forge script script/GreenHat.s.sol:GreenHatScript \
+deploy-base-sepolia: build-production
+	FOUNDRY_PROFILE=production forge script script/GreenHat.s.sol:GreenHatScript \
 		--rpc-url $(BASE_SEPOLIA_RPC_URL) \
 		--private-key $(DEPLOYER_PRIVATE_KEY) \
 		--broadcast --verify \
@@ -77,8 +80,8 @@ deploy-base-sepolia: build
 
 # ─── Deploy: Mainnets ────────────────────────────────────────────
 
-deploy-mainnet: build
-	forge script script/GreenHat.s.sol:GreenHatScript \
+deploy-mainnet: build-production
+	FOUNDRY_PROFILE=production forge script script/GreenHat.s.sol:GreenHatScript \
 		--rpc-url $(MAINNET_RPC_URL) \
 		--private-key $(DEPLOYER_PRIVATE_KEY) \
 		--broadcast --verify \
@@ -86,8 +89,8 @@ deploy-mainnet: build
 		--delay 10 \
 		--retries 3
 
-deploy-base: build
-	forge script script/GreenHat.s.sol:GreenHatScript \
+deploy-base: build-production
+	FOUNDRY_PROFILE=production forge script script/GreenHat.s.sol:GreenHatScript \
 		--rpc-url $(BASE_RPC_URL) \
 		--private-key $(DEPLOYER_PRIVATE_KEY) \
 		--broadcast --verify \
@@ -95,8 +98,8 @@ deploy-base: build
 		--delay 10 \
 		--retries 3
 
-deploy-bnb: build
-	forge script script/GreenHat.s.sol:GreenHatScript \
+deploy-bnb: build-production
+	FOUNDRY_PROFILE=production forge script script/GreenHat.s.sol:GreenHatScript \
 		--rpc-url $(BNB_RPC_URL) \
 		--private-key $(DEPLOYER_PRIVATE_KEY) \
 		--broadcast --verify \

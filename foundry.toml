@@ -3,6 +3,24 @@ src = "src"
 out = "out"
 libs = ["lib"]
 remappings = ["openzeppelin-contracts/=lib/openzeppelin-contracts/"]
+optimizer = false
+via_ir = false
+
+[profile.ci]
+# CI: matches production behavior for reliable gas snapshots
+solc = "0.8.20"
+optimizer = true
+optimizer_runs = 10_000
+
+[profile.production]
+# Production: full optimization for minimal gas cost
+solc = "0.8.20"
+optimizer = true
+optimizer_runs = 10_000
+via_ir = false
+# ── For deeper optimization (slower compile) ──
+# via_ir = true
+# evm_version = "cancun"  # requires Solc ≥0.8.24 & Dencun-upgraded chain
 
 [fmt]
 bracket_spacing = true

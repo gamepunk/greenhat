@@ -2,8 +2,8 @@
 
 > The greenest meme coin on EVM. No promises, just vibes. 🌿
 
-[![CI](https://github.com/GreenHat-Token/greenhat/actions/workflows/test.yml/badge.svg)](https://github.com/GreenHat-Token/greenhat/actions/workflows/test.yml)
-[![codecov](https://codecov.io/gh/GreenHat-Token/greenhat/branch/main/graph/badge.svg)](https://codecov.io/gh/GreenHat-Token/greenhat)
+[![CI](https://github.com/gamepunk/greenhat/actions/workflows/test.yml/badge.svg)](https://github.com/gamepunk/greenhat/actions/workflows/test.yml)
+[![codecov](https://codecov.io/gh/gamepunk/greenhat/branch/main/graph/badge.svg)](https://codecov.io/gh/gamepunk/greenhat)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Solidity ^0.8.20](https://img.shields.io/badge/Solidity-^0.8.20-blue)](https://soliditylang.org)
 
