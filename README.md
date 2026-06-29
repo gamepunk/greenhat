@@ -2,6 +2,11 @@
 
 > The greenest meme coin on EVM. No promises, just vibes. 🌿
 
+[![CI](https://github.com/GreenHat-Token/greenhat/actions/workflows/test.yml/badge.svg)](https://github.com/GreenHat-Token/greenhat/actions/workflows/test.yml)
+[![codecov](https://codecov.io/gh/GreenHat-Token/greenhat/branch/main/graph/badge.svg)](https://codecov.io/gh/GreenHat-Token/greenhat)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Solidity ^0.8.20](https://img.shields.io/badge/Solidity-^0.8.20-blue)](https://soliditylang.org)
+
 | 属性 | 值 |
 |------|------|
 | **名称** | GreenHat |
@@ -9,7 +14,7 @@
 | **精度** | 18 |
 | **总供应量** | 1,000,000,000 GREEN |
 | **标准** | ERC-20 (OpenZeppelin v5) |
-| **网络** | EVM 兼容链 |
+| **网络** | Ethereum, Base, BNB Chain, Polygon 等 EVM 链 |
 
 ## 合约架构
 
@@ -64,43 +69,60 @@ $ forge build
 $ forge test -vvv
 ```
 
-### 部署
+### 环境配置
 
-1. 创建 `.env` 文件：
+创建 `.env` 文件：
 
 ```shell
 DEPLOYER_PRIVATE_KEY=your_private_key_here
-RPC_URL=your_rpc_url_here
+ETHERSCAN_API_KEY=your_etherscan_api_key
+
+# 主网
+MAINNET_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/your_key
+BASE_RPC_URL=https://mainnet.base.org
+BNB_RPC_URL=https://bsc-dataseed.binance.org
+
+# 测试网
+SEPOLIA_RPC_URL=https://eth-sepolia.g.alchemy.com/v2/your_key
+BASE_SEPOLIA_RPC_URL=https://sepolia.base.org
 ```
 
-2. 部署：
+### 部署
+
+通过 `Makefile` 一键部署：
+
+```shell
+# 测试网
+make deploy-sepolia
+make deploy-base-sepolia
+
+# 主网（请先测试！）
+make deploy-mainnet
+make deploy-base
+make deploy-bnb
+```
+
+或手动执行：
 
 ```shell
 $ source .env
 $ forge script script/GreenHat.s.sol:GreenHatScript \
-    --rpc-url $RPC_URL \
+    --rpc-url $SEPOLIA_RPC_URL \
     --private-key $DEPLOYER_PRIVATE_KEY \
-    --broadcast
+    --broadcast --verify \
+    --etherscan-api-key $ETHERSCAN_API_KEY
 ```
 
-3. 部署后配置：
+### 部署后配置
 
 ```shell
 # 设置 DEX 交易对（排除持仓/交易限制）
-$ cast send <TOKEN_ADDRESS> "setDexPair(address)" <PAIR_ADDRESS> --rpc-url $RPC_URL --private-key $DEPLOYER_PRIVATE_KEY
+$ cast send <TOKEN_ADDRESS> "setDexPair(address)" <PAIR_ADDRESS> \
+    --rpc-url $RPC_URL --private-key $DEPLOYER_PRIVATE_KEY
 
 # 调整限制参数（可选）
-$ cast send <TOKEN_ADDRESS> "setLimits(uint256,uint256)" <MAX_WALLET> <MAX_TX> --rpc-url $RPC_URL --private-key $DEPLOYER_PRIVATE_KEY
-```
-
-### 验证
-
-```shell
-$ forge script script/GreenHat.s.sol:GreenHatScript \
-    --rpc-url $RPC_URL \
-    --private-key $DEPLOYER_PRIVATE_KEY \
-    --broadcast \
-    --verify
+$ cast send <TOKEN_ADDRESS> "setLimits(uint256,uint256)" <MAX_WALLET> <MAX_TX> \
+    --rpc-url $RPC_URL --private-key $DEPLOYER_PRIVATE_KEY
 ```
 
 ## 合约接口
