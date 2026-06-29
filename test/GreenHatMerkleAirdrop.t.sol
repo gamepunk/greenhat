@@ -188,6 +188,19 @@ contract GreenHatMerkleAirdropTest is Test {
         assertEq(airdrop.merkleRoot(), newRoot);
     }
 
+    function test_SetEndTime() public {
+        vm.prank(deployer);
+        airdrop.setEndTime(1000);
+        assertEq(airdrop.endTime(), 1000);
+    }
+
+    function test_RevertWhen_SweepWithNoDeadline() public {
+        // Main airdrop has endTime = 0 (no deadline)
+        vm.prank(deployer);
+        vm.expectRevert(GreenHatMerkleAirdrop.AirdropInactive.selector);
+        airdrop.sweep(deployer);
+    }
+
     function test_ActivateDeactivate() public {
         vm.prank(deployer);
         airdrop.setAirdropActive(true);

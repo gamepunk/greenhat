@@ -192,6 +192,26 @@ contract GreenHatNFTTest is Test {
         assertEq(nft.ownerOf(1), alice);
     }
 
+    // ─── Supports Interface ───────────────────────────────────
+
+    function test_SupportsInterface() public {
+        assertTrue(nft.supportsInterface(0x80ac58cd)); // ERC721
+        assertTrue(nft.supportsInterface(0x5b5e139f)); // ERC721Metadata
+        assertTrue(nft.supportsInterface(0x49064906)); // ERC4906 (URIStorage)
+        assertTrue(nft.supportsInterface(0x01ffc9a7)); // ERC165
+    }
+
+    function test_TokenURIRevertsForNonExistentToken() public {
+        vm.expectRevert();
+        nft.tokenURI(999);
+    }
+
+    function test_RevertWhen_SetTierURIIsNone() public {
+        vm.prank(deployer);
+        vm.expectRevert(GreenHatNFT.InvalidTier.selector);
+        nft.setTierURI(GreenHatNFT.Tier.None, "ipfs://...");
+    }
+
     // ─── Helpers ────────────────────────────────────────────────
 
     function _fund(
