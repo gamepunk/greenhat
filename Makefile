@@ -83,6 +83,12 @@ deploy-sepolia: build-production
 		--delay 10 \
 		--retries 3
 
+deploy-amoy: build-production
+	FOUNDRY_PROFILE=production forge script script/GreenHat.s.sol:GreenHatScript \
+		--rpc-url "https://rpc-amoy.polygon.technology" \
+		--private-key $(DEPLOYER_PRIVATE_KEY) \
+		--broadcast
+
 deploy-base-sepolia: build-production
 	FOUNDRY_PROFILE=production forge script script/GreenHat.s.sol:GreenHatScript \
 		--rpc-url $(BASE_SEPOLIA_RPC_URL) \

@@ -1,16 +1,15 @@
 /// Configuration for GreenHat token on-chain interaction
 
-// ── Replace with your deployed contract address ──
-export const GREENHAT_ADDRESS = "0x..." as `0x${string}`;
+// ── Deployed GreenHat contract on Polygon Amoy ──
+export const GREENHAT_ADDRESS = "0x8C5B79A3014009EFA8FB2de98b8474AfCefF082f" as `0x${string}`;
 
-// ── Default chain (Sepolia testnet) ──
-// Change to your target chain
+// ── Polygon Amoy testnet ──
 export const CHAIN = {
-  id: 11_155_111,
-  name: "Sepolia",
-  rpc: "https://sepolia.gateway.tenderly.co",
-  explorer: "https://sepolia.etherscan.io",
-  currency: { name: "SepoliaETH", symbol: "SEP", decimals: 18 },
+  id: 80_002,
+  name: "Polygon Amoy",
+  rpc: "https://rpc-amoy.polygon.technology",
+  explorer: "https://amoy.polygonscan.com",
+  currency: { name: "POL", symbol: "POL", decimals: 18 },
 } as const;
 
 // ── Import ABI ──
