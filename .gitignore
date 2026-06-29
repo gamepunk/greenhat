@@ -18,3 +18,13 @@ docs/
 .env
 .env.*
 !.env.example
+
+# Dependencies
+node_modules/
+
+# Solhint
+.solhint-cache/
+
+# Slither
+slither.db.json
+crytic-export/

@@ -1,0 +1,22 @@
+{
+  "detectors_to_exclude": [
+    "naming-convention",
+    "solc-version",
+    "pragma",
+    "unused-state"
+  ],
+  "filter_paths": "(lib/|test/|script/)",
+  "compile_force_framework": "foundry",
+  "compile_working_dir": ".",
+  "solc_remaps": [
+    "forge-std/=lib/forge-std/src/",
+    "openzeppelin-contracts/=lib/openzeppelin-contracts/"
+  ],
+  "exclude_informational": false,
+  "exclude_low": false,
+  "exclude_medium": false,
+  "exclude_high": false,
+  "disable_color": false,
+  "legacy_ast": false,
+  "exclude_dependencies": true
+}
