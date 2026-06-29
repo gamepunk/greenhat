@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import { Test } from "forge-std/Test.sol";
 import { GreenHat } from "../src/GreenHat.sol";
 import { GreenHatPool } from "../src/GreenHatPool.sol";
+import { Test } from "forge-std/Test.sol";
 import { Ownable } from "openzeppelin-contracts/contracts/access/Ownable.sol";
 
 contract GreenHatPoolTest is Test {
@@ -59,9 +59,7 @@ contract GreenHatPoolTest is Test {
     function test_RevertWhen_NonOwnerAddsLiquidity() public {
         vm.deal(alice, 0.01 ether);
         vm.prank(alice);
-        vm.expectRevert(
-            abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, alice)
-        );
+        vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, alice));
         pool.addLiquidity{ value: 0.01 ether }(1000 * ONE_GREEN);
     }
 
@@ -217,9 +215,7 @@ contract GreenHatPoolTest is Test {
 
     function test_RevertWhen_NonOwnerRemovesLiquidity() public {
         vm.prank(alice);
-        vm.expectRevert(
-            abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, alice)
-        );
+        vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, alice));
         pool.removeLiquidity();
     }
 
@@ -261,7 +257,9 @@ contract GreenHatPoolTest is Test {
     //  Fuzz Tests
     // ═══════════════════════════════════════════════════════════════
 
-    function testFuzz_BuyGreen(uint256 polIn) public {
+    function testFuzz_BuyGreen(
+        uint256 polIn
+    ) public {
         vm.assume(polIn > 0 && polIn <= LIQ_POL);
         uint256 expected = (polIn * LIQ_GREEN) / (LIQ_POL + polIn);
 
@@ -270,7 +268,10 @@ contract GreenHatPoolTest is Test {
         pool.buyGreen{ value: polIn }(expected > 0 ? expected - 1 : 0);
     }
 
-    function testFuzz_SellGreen(uint256 polIn, uint256 sellPct) public {
+    function testFuzz_SellGreen(
+        uint256 polIn,
+        uint256 sellPct
+    ) public {
         vm.assume(polIn > 0 && polIn <= LIQ_POL);
         vm.assume(sellPct > 0 && sellPct <= 100);
 
