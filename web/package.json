@@ -6,7 +6,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "listener": "bun run scripts/listener.ts",
+    "listener:backfill": "bun run scripts/listener.ts --from 0",
+    "listener:once": "bun run scripts/listener.ts --once",
+    "healthcheck": "bun run scripts/healthcheck.ts",
+    "healthcheck:watch": "bun run scripts/healthcheck.ts --watch"
   },
   "dependencies": {
     "next": "^15.0.0",

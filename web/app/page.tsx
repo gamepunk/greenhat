@@ -85,10 +85,11 @@ export default function Home() {
     if (!account) return;
     const pc = getPublicClient();
     (async () => {
+      const pcAny = pc as any;
       const [bal, sym, sup] = await Promise.all([
-        pc.readContract({ address: GREENHAT_ADDRESS, abi: GREENHAT_ABI, functionName: "balanceOf", args: [account] }),
-        pc.readContract({ address: GREENHAT_ADDRESS, abi: GREENHAT_ABI, functionName: "symbol" }),
-        pc.readContract({ address: GREENHAT_ADDRESS, abi: GREENHAT_ABI, functionName: "totalSupply" }),
+        pcAny.readContract({ address: GREENHAT_ADDRESS, abi: GREENHAT_ABI, functionName: "balanceOf", args: [account] }),
+        pcAny.readContract({ address: GREENHAT_ADDRESS, abi: GREENHAT_ABI, functionName: "symbol" }),
+        pcAny.readContract({ address: GREENHAT_ADDRESS, abi: GREENHAT_ABI, functionName: "totalSupply" }),
       ]);
       setBalance(bal as bigint);
       setSymbol(sym as string);
@@ -99,7 +100,8 @@ export default function Home() {
   // Refresh balance
   const refreshBalance = useCallback(async () => {
     if (!account) return;
-    const bal = await getPublicClient().readContract({
+    const pc = getPublicClient() as any;
+    const bal = await pc.readContract({
       address: GREENHAT_ADDRESS, abi: GREENHAT_ABI, functionName: "balanceOf", args: [account],
     });
     setBalance(bal as bigint);
@@ -111,7 +113,7 @@ export default function Home() {
     setSending(true);
     setTxHash(null);
     try {
-      const wc = createWalletClient({ chain: viemChain, transport: custom(window.ethereum!) });
+      const wc = createWalletClient({ chain: viemChain, transport: custom(window.ethereum!) }) as any;
       const hash = await wc.writeContract({
         address: GREENHAT_ADDRESS, abi: GREENHAT_ABI,
         functionName: "transfer",

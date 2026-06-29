@@ -14,5 +14,5 @@ export const CHAIN = {
 } as const;
 
 // ── Import ABI ──
-import GREENHAT_ABI from "../abi.json";
-export { GREENHAT_ABI };
+import abi from "../abi.json";
+export const GREENHAT_ABI = abi as any;
