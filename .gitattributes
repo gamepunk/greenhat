@@ -1,0 +1,19 @@
+# Normalize line endings
+* text=auto
+
+# Solidity source
+*.sol text diff=solidity
+
+# Markdown
+*.md text
+
+# Config files
+*.json text
+*.toml text
+*.yml text
+*.yaml text
+
+# Lock files — binary to prevent merge conflicts
+*.lock binary
+*.lock binary
+foundry.lock binary
