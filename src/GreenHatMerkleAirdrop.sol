@@ -49,6 +49,10 @@ contract GreenHatMerkleAirdrop is Ownable {
     /// @param active New state
     event AirdropActive(bool indexed active);
 
+    /// @notice Emitted when the end time is updated
+    /// @param endTime New end timestamp
+    event EndTimeUpdated(uint256 endTime);
+
     /// @notice Emitted when unclaimed tokens are swept
     /// @param to Recipient of swept tokens
     /// @param amount Amount swept
@@ -132,6 +136,7 @@ contract GreenHatMerkleAirdrop is Ownable {
     /// @param _endTime New end timestamp
     function setEndTime(uint256 _endTime) external onlyOwner {
         endTime = _endTime;
+        emit EndTimeUpdated(_endTime);
     }
 
     /// @notice Sweep unclaimed tokens after airdrop ends
