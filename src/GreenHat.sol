@@ -171,6 +171,63 @@ contract GreenHat is ERC20, Ownable {
     }
 
     // ═══════════════════════════════════════════════════════════════
+    //  Burn
+    // ═══════════════════════════════════════════════════════════════
+
+    /// @notice Burn tokens from caller's balance (creates scarcity)
+    /// @param amount Amount of tokens to burn
+    function burn(uint256 amount) external {
+        _burn(msg.sender, amount);
+        emit TokensBurned(msg.sender, amount);
+    }
+
+    /// @notice Burn tokens from another address (with allowance)
+    /// @param account Address to burn from
+    /// @param amount Amount of tokens to burn
+    function burnFrom(address account, uint256 amount) external {
+        uint256 allowed = allowance(account, msg.sender);
+        if (allowed != type(uint256).max) {
+            if (allowed < amount) revert InsufficientAllowance();
+            unchecked { _approve(account, msg.sender, allowed - amount); }
+        }
+        _burn(account, amount);
+        emit TokensBurned(account, amount);
+    }
+
+    /// @notice Thrown when allowance is insufficient for burnFrom
+    error InsufficientAllowance();
+
+    // ═══════════════════════════════════════════════════════════════
+    //  Batch Transfer (Airdrop)
+    // ═══════════════════════════════════════════════════════════════
+
+    /// @notice Send tokens to multiple addresses in one transaction
+    /// @param recipients Array of recipient addresses
+    /// @param amounts Array of amounts (must match recipients length)
+    function batchTransfer(
+        address[] calldata recipients,
+        uint256[] calldata amounts
+    ) external onlyOwner {
+        uint256 len = recipients.length;
+        if (len != amounts.length) revert BatchLengthMismatch();
+        for (uint256 i; i < len; ++i) {
+            _transfer(msg.sender, recipients[i], amounts[i]);
+        }
+    }
+
+    /// @notice Thrown when recipients and amounts arrays have different lengths
+    error BatchLengthMismatch();
+
+    // ═══════════════════════════════════════════════════════════════
+    //  Events
+    // ═══════════════════════════════════════════════════════════════
+
+    /// @notice Emitted when tokens are burned
+    /// @param account The address that burned tokens
+    /// @param amount The amount burned
+    event TokensBurned(address indexed account, uint256 amount);
+
+    // ═══════════════════════════════════════════════════════════════
     //  Core Transfer Hook
     // ═══════════════════════════════════════════════════════════════
 

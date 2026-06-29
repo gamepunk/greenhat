@@ -300,6 +300,109 @@ contract GreenHatTest is Test {
     }
 
     // ═══════════════════════════════════════════════════════════════
+    //  Burn
+    // ═══════════════════════════════════════════════════════════════
+
+    function test_Burn() public {
+        _fund(alice);
+
+        uint256 before = token.balanceOf(alice);
+        uint256 amount = 10 * ONE_TOKEN;
+
+        vm.prank(alice);
+        token.burn(amount);
+
+        assertEq(token.balanceOf(alice), before - amount);
+        assertEq(token.totalSupply(), MAX_SUPPLY - amount);
+    }
+
+    function test_BurnFrom() public {
+        _fund(alice);
+
+        uint256 amount = 10 * ONE_TOKEN;
+        vm.prank(alice);
+        token.approve(bob, amount);
+
+        vm.prank(bob);
+        token.burnFrom(alice, amount);
+
+        assertEq(token.balanceOf(alice), (100 * ONE_TOKEN) - amount);
+        assertEq(token.totalSupply(), MAX_SUPPLY - amount);
+        assertEq(token.allowance(alice, bob), 0);
+    }
+
+    function test_BurnFromInfiniteApproval() public {
+        _fund(alice);
+
+        uint256 amount = 10 * ONE_TOKEN;
+        vm.prank(alice);
+        token.approve(bob, type(uint256).max);
+
+        vm.prank(bob);
+        token.burnFrom(alice, amount);
+
+        assertEq(token.totalSupply(), MAX_SUPPLY - amount);
+        assertEq(token.allowance(alice, bob), type(uint256).max);
+    }
+
+    function test_RevertWhen_BurnInsufficientBalance() public {
+        vm.prank(alice);
+        vm.expectRevert();
+        token.burn(1);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  Batch Transfer
+    // ═══════════════════════════════════════════════════════════════
+
+    function test_BatchTransfer() public {
+        address[] memory recipients = new address[](3);
+        recipients[0] = alice;
+        recipients[1] = bob;
+        recipients[2] = makeAddr("charlie");
+
+        uint256[] memory amounts = new uint256[](3);
+        amounts[0] = 10 * ONE_TOKEN;
+        amounts[1] = 20 * ONE_TOKEN;
+        amounts[2] = 30 * ONE_TOKEN;
+
+        uint256 total = 60 * ONE_TOKEN;
+        uint256 deployerBefore = token.balanceOf(deployer);
+
+        vm.prank(deployer);
+        token.batchTransfer(recipients, amounts);
+
+        assertEq(token.balanceOf(alice), 10 * ONE_TOKEN);
+        assertEq(token.balanceOf(bob), 20 * ONE_TOKEN);
+        assertEq(token.balanceOf(makeAddr("charlie")), 30 * ONE_TOKEN);
+        assertEq(token.balanceOf(deployer), deployerBefore - total);
+    }
+
+    function test_RevertWhen_BatchTransferLengthMismatch() public {
+        address[] memory recipients = new address[](2);
+        recipients[0] = alice;
+        recipients[1] = bob;
+
+        uint256[] memory amounts = new uint256[](3);
+
+        vm.prank(deployer);
+        vm.expectRevert(GreenHat.BatchLengthMismatch.selector);
+        token.batchTransfer(recipients, amounts);
+    }
+
+    function test_RevertWhen_NonOwnerBatchTransfer() public {
+        address[] memory recipients = new address[](1);
+        recipients[0] = alice;
+
+        uint256[] memory amounts = new uint256[](1);
+        amounts[0] = 1;
+
+        vm.prank(alice);
+        vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, alice));
+        token.batchTransfer(recipients, amounts);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
     //  Helpers
     // ═══════════════════════════════════════════════════════════════
 
