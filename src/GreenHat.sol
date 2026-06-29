@@ -2,11 +2,13 @@
 pragma solidity ^0.8.20;
 
 import {ERC20} from "openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
+import {Ownable} from "openzeppelin-contracts/contracts/access/Ownable.sol";
+import {Ownable2Step} from "openzeppelin-contracts/contracts/access/Ownable2Step.sol";
 
 /// @title GreenHat - The Meme Coin
 /// @notice A mature, feature-rich meme token built on OpenZeppelin
 /// @dev Features: tax, anti-whale, blacklist, pause, 2-step ownership
-contract GreenHat is ERC20 {
+contract GreenHat is ERC20, Ownable2Step {
     // ═══════════════════════════════════════════════════════════════
     //  Constants
     // ═══════════════════════════════════════════════════════════════
@@ -62,18 +64,8 @@ contract GreenHat is ERC20 {
     bool public tradingPaused;
 
     // ═══════════════════════════════════════════════════════════════
-    //  Ownership (2-step)
-    // ═══════════════════════════════════════════════════════════════
-
-    address public owner;
-    address public pendingOwner;
-
-    // ═══════════════════════════════════════════════════════════════
     //  Events
     // ═══════════════════════════════════════════════════════════════
-
-    event OwnershipTransferStarted(address indexed from, address indexed to);
-    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
     event MarketingWalletUpdated(address indexed wallet);
     event LiquidityWalletUpdated(address indexed wallet);
     event DexPairUpdated(address indexed pair);
@@ -92,7 +84,6 @@ contract GreenHat is ERC20 {
     //  Errors
     // ═══════════════════════════════════════════════════════════════
 
-    error Unauthorized();
     error ZeroAddress();
     error MaxWalletExceeded();
     error MaxTxExceeded();
@@ -103,21 +94,10 @@ contract GreenHat is ERC20 {
     error NoTaxToCollect();
 
     // ═══════════════════════════════════════════════════════════════
-    //  Modifiers
-    // ═══════════════════════════════════════════════════════════════
-
-    modifier onlyOwner() {
-        if (msg.sender != owner) revert Unauthorized();
-        _;
-    }
-
-    // ═══════════════════════════════════════════════════════════════
     //  Constructor
     // ═══════════════════════════════════════════════════════════════
 
-    constructor() ERC20("GreenHat", "GREEN") {
-        owner = msg.sender;
-
+    constructor() ERC20("GreenHat", "GREEN") Ownable(msg.sender) {
         // ── Mint entire supply to deployer ──
         _mint(msg.sender, MAX_SUPPLY);
 
@@ -250,26 +230,6 @@ contract GreenHat is ERC20 {
         liquidityReserve = 0;
         super._update(address(this), liquidityWallet, amount);
         emit LiquidityCollected(amount);
-    }
-
-    // ═══════════════════════════════════════════════════════════════
-    //  Ownership (2-step)
-    // ═══════════════════════════════════════════════════════════════
-
-    /// @notice Initiate ownership transfer to a new address
-    function transferOwnership(address newOwner) external onlyOwner {
-        if (newOwner == address(0)) revert ZeroAddress();
-        pendingOwner = newOwner;
-        emit OwnershipTransferStarted(owner, newOwner);
-    }
-
-    /// @notice Accept ownership transfer (caller must be pendingOwner)
-    function acceptOwnership() external {
-        if (msg.sender != pendingOwner) revert Unauthorized();
-        address previousOwner = owner;
-        owner = pendingOwner;
-        pendingOwner = address(0);
-        emit OwnershipTransferred(previousOwner, owner);
     }
 
     // ═══════════════════════════════════════════════════════════════

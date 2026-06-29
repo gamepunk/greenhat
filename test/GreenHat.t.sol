@@ -3,6 +3,7 @@ pragma solidity ^0.8.20;
 
 import {Test} from "forge-std/Test.sol";
 import {GreenHat} from "../src/GreenHat.sol";
+import {Ownable} from "openzeppelin-contracts/contracts/access/Ownable.sol";
 
 contract GreenHatTest is Test {
     GreenHat public token;
@@ -397,20 +398,27 @@ contract GreenHatTest is Test {
         token.transferOwnership(alice);
 
         vm.prank(bob);
-        vm.expectRevert(GreenHat.Unauthorized.selector);
+        vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, bob));
         token.acceptOwnership();
     }
 
     function test_RevertWhen_NonOwnerTransfersOwnership() public {
         vm.prank(alice);
-        vm.expectRevert(GreenHat.Unauthorized.selector);
+        vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, alice));
         token.transferOwnership(bob);
     }
 
-    function test_RevertWhen_TransferOwnershipToZero() public {
+    function test_TransferOwnershipToZeroCancelsPending() public {
+        // Start a transfer to alice
         vm.prank(deployer);
-        vm.expectRevert(GreenHat.ZeroAddress.selector);
+        token.transferOwnership(alice);
+        assertEq(token.pendingOwner(), alice);
+
+        // Cancel by transferring to zero
+        vm.prank(deployer);
         token.transferOwnership(address(0));
+        assertEq(token.pendingOwner(), address(0));
+        assertEq(token.owner(), deployer);
     }
 
     // ═══════════════════════════════════════════════════════════════
@@ -427,7 +435,7 @@ contract GreenHatTest is Test {
 
     function test_RevertWhen_NonOwnerSetsDexPair() public {
         vm.prank(alice);
-        vm.expectRevert(GreenHat.Unauthorized.selector);
+        vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, alice));
         token.setDexPair(dex);
     }
 
