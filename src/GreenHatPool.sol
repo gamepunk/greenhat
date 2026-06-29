@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import {IERC20} from "openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
-import {Ownable} from "openzeppelin-contracts/contracts/access/Ownable.sol";
+import { Ownable } from "openzeppelin-contracts/contracts/access/Ownable.sol";
+import { IERC20 } from "openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 
 /// @title GreenHatPool — Simple GREEN/POL Liquidity Pool
 /// @notice Minimal constant product AMM for testnet use
@@ -21,12 +21,16 @@ contract GreenHatPool is Ownable {
     error InvalidRatio();
     error ZeroAmount();
 
-    constructor(address _green) Ownable(msg.sender) {
+    constructor(
+        address _green
+    ) Ownable(msg.sender) {
         green = IERC20(_green);
     }
 
     /// @notice Add initial liquidity (owner only)
-    function addLiquidity(uint256 greenAmount) external payable onlyOwner {
+    function addLiquidity(
+        uint256 greenAmount
+    ) external payable onlyOwner {
         if (greenAmount == 0 || msg.value == 0) revert ZeroAmount();
         if (greenReserve > 0 || polReserve > 0) {
             if (greenAmount * polReserve != msg.value * greenReserve) revert InvalidRatio();
@@ -42,7 +46,9 @@ contract GreenHatPool is Ownable {
 
     /// @notice Buy GREEN with POL (send POL as msg.value)
     /// @param minGreenOut Minimum GREEN to receive
-    function buyGreen(uint256 minGreenOut) external payable {
+    function buyGreen(
+        uint256 minGreenOut
+    ) external payable {
         if (msg.value == 0) revert ZeroAmount();
         uint256 greenOut = (msg.value * greenReserve) / (polReserve + msg.value);
         if (greenOut < minGreenOut) revert InsufficientOutput();
@@ -58,7 +64,10 @@ contract GreenHatPool is Ownable {
     /// @notice Sell GREEN for POL
     /// @param greenIn Amount of GREEN to sell
     /// @param minPolOut Minimum POL to receive
-    function sellGreen(uint256 greenIn, uint256 minPolOut) external {
+    function sellGreen(
+        uint256 greenIn,
+        uint256 minPolOut
+    ) external {
         if (greenIn == 0) revert ZeroAmount();
         uint256 polOut = (greenIn * polReserve) / (greenReserve + greenIn);
         if (polOut < minPolOut) revert InsufficientOutput();
@@ -70,7 +79,7 @@ contract GreenHatPool is Ownable {
         greenReserve += greenIn;
         polReserve -= polOut;
 
-        (bool ok2, ) = msg.sender.call{value: polOut}("");
+        (bool ok2,) = msg.sender.call{ value: polOut }("");
         require(ok2, "POL transfer failed");
 
         emit Swapped(msg.sender, false, greenIn, polOut);
@@ -85,7 +94,7 @@ contract GreenHatPool is Ownable {
 
         bool ok = green.transfer(msg.sender, g);
         require(ok, "GREEN transfer failed");
-        (bool ok2, ) = msg.sender.call{value: p}("");
+        (bool ok2,) = msg.sender.call{ value: p }("");
         require(ok2, "POL transfer failed");
         emit LiquidityRemoved(g, p);
     }
@@ -96,5 +105,5 @@ contract GreenHatPool is Ownable {
         return (polReserve * 1e18) / greenReserve;
     }
 
-    receive() external payable {}
+    receive() external payable { }
 }

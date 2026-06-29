@@ -1,21 +1,21 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import {Test} from "forge-std/Test.sol";
-import {GreenHat} from "../src/GreenHat.sol";
-import {Ownable} from "openzeppelin-contracts/contracts/access/Ownable.sol";
+import { GreenHat } from "../src/GreenHat.sol";
+import { Test } from "forge-std/Test.sol";
+import { Ownable } from "openzeppelin-contracts/contracts/access/Ownable.sol";
 
 contract GreenHatTest is Test {
     GreenHat public token;
     address public deployer = makeAddr("deployer");
-    address public alice   = makeAddr("alice");
-    address public bob     = makeAddr("bob");
-    address public dex     = makeAddr("dexPair");
+    address public alice = makeAddr("alice");
+    address public bob = makeAddr("bob");
+    address public dex = makeAddr("dexPair");
 
     uint256 public constant MAX_SUPPLY = 21_000_000 * 10 ** 4;
-    uint256 public constant ONE_TOKEN  = 10 ** 4;
+    uint256 public constant ONE_TOKEN = 10 ** 4;
     uint256 public constant DEFAULT_MAX_WALLET = MAX_SUPPLY * 2 / 100; // 2%
-    uint256 public constant DEFAULT_MAX_TX    = MAX_SUPPLY * 1 / 100; // 1%
+    uint256 public constant DEFAULT_MAX_TX = MAX_SUPPLY * 1 / 100; // 1%
 
     function setUp() public {
         vm.prank(deployer);
@@ -272,7 +272,9 @@ contract GreenHatTest is Test {
     //  Fuzz Tests
     // ═══════════════════════════════════════════════════════════════
 
-    function testFuzz_Transfer(uint256 amount) public {
+    function testFuzz_Transfer(
+        uint256 amount
+    ) public {
         vm.assume(amount > 0 && amount <= MAX_SUPPLY);
 
         vm.prank(deployer);
@@ -282,7 +284,10 @@ contract GreenHatTest is Test {
         assertEq(token.balanceOf(alice), amount);
     }
 
-    function testFuzz_TransferFrom(uint256 approval, uint256 amount) public {
+    function testFuzz_TransferFrom(
+        uint256 approval,
+        uint256 amount
+    ) public {
         vm.assume(amount > 0 && amount <= MAX_SUPPLY);
         vm.assume(approval >= amount);
 
@@ -406,11 +411,16 @@ contract GreenHatTest is Test {
     //  Helpers
     // ═══════════════════════════════════════════════════════════════
 
-    function _fund(address to) internal {
+    function _fund(
+        address to
+    ) internal {
         _fund(to, 100 * ONE_TOKEN);
     }
 
-    function _fund(address to, uint256 amount) internal {
+    function _fund(
+        address to,
+        uint256 amount
+    ) internal {
         vm.prank(deployer);
         token.transfer(to, amount);
     }

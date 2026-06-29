@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import {Test} from "forge-std/Test.sol";
-import {GreenHat} from "../src/GreenHat.sol";
-import {GreenHatMerkleAirdrop} from "../src/GreenHatMerkleAirdrop.sol";
+import { GreenHat } from "../src/GreenHat.sol";
+import { GreenHatMerkleAirdrop } from "../src/GreenHatMerkleAirdrop.sol";
+import { Test } from "forge-std/Test.sol";
 
 /// @title Merkle Airdrop Tests
 /// @notice Tests the full airdrop lifecycle
@@ -152,11 +152,7 @@ contract GreenHatMerkleAirdropTest is Test {
 
         // Deploy with deadline = 100
         vm.prank(deployer);
-        GreenHatMerkleAirdrop timedAirdrop = new GreenHatMerkleAirdrop(
-            address(token),
-            merkleRoot,
-            100
-        );
+        GreenHatMerkleAirdrop timedAirdrop = new GreenHatMerkleAirdrop(address(token), merkleRoot, 100);
 
         vm.prank(deployer);
         token.transfer(address(timedAirdrop), AIRDROP_TOTAL);
@@ -204,7 +200,9 @@ contract GreenHatMerkleAirdropTest is Test {
 
     // ─── Fuzz ───────────────────────────────────────────────────
 
-    function testFuzz_ClaimAfterActivation(uint256 amount) public {
+    function testFuzz_ClaimAfterActivation(
+        uint256 amount
+    ) public {
         vm.assume(amount > 0 && amount <= ALICE_AMOUNT);
 
         // Can't easily fuzz with real proofs, just test activation

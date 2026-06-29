@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import {Test} from "forge-std/Test.sol";
-import {GreenHat} from "../src/GreenHat.sol";
-import {GreenHatNFT} from "../src/GreenHatNFT.sol";
+import { GreenHat } from "../src/GreenHat.sol";
+import { GreenHatNFT } from "../src/GreenHatNFT.sol";
+import { Test } from "forge-std/Test.sol";
 
 contract GreenHatNFTTest is Test {
     GreenHat public token;
@@ -16,9 +16,9 @@ contract GreenHatNFTTest is Test {
     uint256 public constant ONE_TOKEN = 10 ** 4;
 
     // Tier thresholds
-    uint256 public constant BRONZE  = 1_000 * ONE_TOKEN;
-    uint256 public constant SILVER  = 10_000 * ONE_TOKEN;
-    uint256 public constant GOLD    = 100_000 * ONE_TOKEN;
+    uint256 public constant BRONZE = 1_000 * ONE_TOKEN;
+    uint256 public constant SILVER = 10_000 * ONE_TOKEN;
+    uint256 public constant GOLD = 100_000 * ONE_TOKEN;
     uint256 public constant DIAMOND = 1_000_000 * ONE_TOKEN;
 
     function setUp() public {
@@ -179,7 +179,9 @@ contract GreenHatNFTTest is Test {
 
     // ─── Fuzz ───────────────────────────────────────────────────
 
-    function testFuzz_MintWithSufficientBalance(uint256 amount) public {
+    function testFuzz_MintWithSufficientBalance(
+        uint256 amount
+    ) public {
         vm.assume(amount >= BRONZE && amount <= 10_000_000 * ONE_TOKEN);
 
         _fund(alice, amount);
@@ -192,7 +194,10 @@ contract GreenHatNFTTest is Test {
 
     // ─── Helpers ────────────────────────────────────────────────
 
-    function _fund(address to, uint256 amount) internal {
+    function _fund(
+        address to,
+        uint256 amount
+    ) internal {
         vm.prank(deployer);
         token.transfer(to, amount);
     }

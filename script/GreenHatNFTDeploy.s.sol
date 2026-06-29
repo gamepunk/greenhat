@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import {Script, console} from "forge-std/Script.sol";
-import {GreenHatNFT} from "../src/GreenHatNFT.sol";
+import { GreenHatNFT } from "../src/GreenHatNFT.sol";
+import { Script, console } from "forge-std/Script.sol";
 
 /// @title GreenHatNFT Deploy Script
 /// @notice Deploys the NFT contract

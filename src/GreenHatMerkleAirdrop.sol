@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import {Ownable} from "openzeppelin-contracts/contracts/access/Ownable.sol";
-import {MerkleProof} from "openzeppelin-contracts/contracts/utils/cryptography/MerkleProof.sol";
-import {IERC20} from "openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
+import { Ownable } from "openzeppelin-contracts/contracts/access/Ownable.sol";
+import { IERC20 } from "openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
+import { MerkleProof } from "openzeppelin-contracts/contracts/utils/cryptography/MerkleProof.sol";
 
 /// @title GreenHatMerkleAirdrop
 /// @notice Merkle-tree based airdrop — gas-efficient, scalable to millions
@@ -94,7 +94,10 @@ contract GreenHatMerkleAirdrop is Ownable {
     /// @notice Claim your airdrop tokens
     /// @param amount Amount of tokens you're entitled to
     /// @param proof Merkle proof (array of sibling hashes)
-    function claim(uint256 amount, bytes32[] calldata proof) external {
+    function claim(
+        uint256 amount,
+        bytes32[] calldata proof
+    ) external {
         if (hasClaimed[msg.sender]) revert AlreadyClaimed();
         if (!airdropActive) revert AirdropInactive();
         if (endTime != 0 && block.timestamp > endTime) revert AirdropEnded();
@@ -120,28 +123,36 @@ contract GreenHatMerkleAirdrop is Ownable {
 
     /// @notice Set a new Merkle root (e.g., after adding more recipients)
     /// @param _merkleRoot New Merkle root
-    function setMerkleRoot(bytes32 _merkleRoot) external onlyOwner {
+    function setMerkleRoot(
+        bytes32 _merkleRoot
+    ) external onlyOwner {
         merkleRoot = _merkleRoot;
         emit MerkleRootUpdated(_merkleRoot);
     }
 
     /// @notice Activate or deactivate the airdrop
     /// @param active Desired state
-    function setAirdropActive(bool active) external onlyOwner {
+    function setAirdropActive(
+        bool active
+    ) external onlyOwner {
         airdropActive = active;
         emit AirdropActive(active);
     }
 
     /// @notice Extend or shorten the airdrop deadline
     /// @param _endTime New end timestamp
-    function setEndTime(uint256 _endTime) external onlyOwner {
+    function setEndTime(
+        uint256 _endTime
+    ) external onlyOwner {
         endTime = _endTime;
         emit EndTimeUpdated(_endTime);
     }
 
     /// @notice Sweep unclaimed tokens after airdrop ends
     /// @param to Recipient of remaining tokens
-    function sweep(address to) external onlyOwner {
+    function sweep(
+        address to
+    ) external onlyOwner {
         if (endTime == 0 || block.timestamp <= endTime) revert AirdropInactive();
         uint256 balance = token.balanceOf(address(this));
         if (balance == 0) revert NoTokensToSweep();
@@ -152,7 +163,9 @@ contract GreenHatMerkleAirdrop is Ownable {
 
     /// @notice Emergency sweep (owner can always recover tokens)
     /// @param to Recipient of tokens
-    function emergencySweep(address to) external onlyOwner {
+    function emergencySweep(
+        address to
+    ) external onlyOwner {
         uint256 balance = token.balanceOf(address(this));
         if (balance == 0) revert NoTokensToSweep();
         bool ok = token.transfer(to, balance);

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import {ERC20} from "openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
-import {Ownable} from "openzeppelin-contracts/contracts/access/Ownable.sol";
+import { Ownable } from "openzeppelin-contracts/contracts/access/Ownable.sol";
+import { ERC20 } from "openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
 
 /// @title GreenHat - The Meme Coin
 /// @notice A simple, secure meme token with anti-whale and safety features
@@ -125,7 +125,9 @@ contract GreenHat is ERC20, Ownable {
 
     /// @notice Set the DEX pair address (also excludes it from limits)
     /// @param pair The DEX pair contract address
-    function setDexPair(address pair) external onlyOwner {
+    function setDexPair(
+        address pair
+    ) external onlyOwner {
         if (pair == address(0)) revert ZeroAddress();
         dexPair = pair;
         isExcludedFromLimits[pair] = true;
@@ -139,7 +141,10 @@ contract GreenHat is ERC20, Ownable {
     /// @notice Update max wallet and max transaction limits
     /// @param _maxWallet New max wallet amount (raw units)
     /// @param _maxTx New max transaction amount (raw units)
-    function setLimits(uint256 _maxWallet, uint256 _maxTx) external onlyOwner {
+    function setLimits(
+        uint256 _maxWallet,
+        uint256 _maxTx
+    ) external onlyOwner {
         maxWallet = _maxWallet;
         maxTx = _maxTx;
         emit LimitsUpdated(_maxWallet, _maxTx);
@@ -152,14 +157,19 @@ contract GreenHat is ERC20, Ownable {
     /// @notice Blacklist or unblacklist an address
     /// @param account The address to manage
     /// @param status True to blacklist, false to unblacklist
-    function setBlacklist(address account, bool status) external onlyOwner {
+    function setBlacklist(
+        address account,
+        bool status
+    ) external onlyOwner {
         isBlacklisted[account] = status;
         emit Blacklisted(account, status);
     }
 
     /// @notice Pause or unpause all trading
     /// @param paused True to pause, false to unpause
-    function setTradingPaused(bool paused) external onlyOwner {
+    function setTradingPaused(
+        bool paused
+    ) external onlyOwner {
         tradingPaused = paused;
         emit TradingPaused(paused);
     }
@@ -171,7 +181,10 @@ contract GreenHat is ERC20, Ownable {
     /// @notice Exclude or re-include an address from anti-whale limits
     /// @param account The address to manage
     /// @param excluded True to exclude from limits, false to include
-    function excludeFromLimits(address account, bool excluded) external onlyOwner {
+    function excludeFromLimits(
+        address account,
+        bool excluded
+    ) external onlyOwner {
         isExcludedFromLimits[account] = excluded;
         emit ExcludedFromLimits(account, excluded);
     }
@@ -182,7 +195,9 @@ contract GreenHat is ERC20, Ownable {
 
     /// @notice Burn tokens from caller's balance (creates scarcity)
     /// @param amount Amount of tokens to burn
-    function burn(uint256 amount) external {
+    function burn(
+        uint256 amount
+    ) external {
         _burn(msg.sender, amount);
         emit TokensBurned(msg.sender, amount);
     }
@@ -190,11 +205,16 @@ contract GreenHat is ERC20, Ownable {
     /// @notice Burn tokens from another address (with allowance)
     /// @param account Address to burn from
     /// @param amount Amount of tokens to burn
-    function burnFrom(address account, uint256 amount) external {
+    function burnFrom(
+        address account,
+        uint256 amount
+    ) external {
         uint256 allowed = allowance(account, msg.sender);
         if (allowed != type(uint256).max) {
             if (allowed < amount) revert InsufficientAllowance();
-            unchecked { _approve(account, msg.sender, allowed - amount); }
+            unchecked {
+                _approve(account, msg.sender, allowed - amount);
+            }
         }
         _burn(account, amount);
         emit TokensBurned(account, amount);
@@ -241,18 +261,17 @@ contract GreenHat is ERC20, Ownable {
     /// @param from Sender address
     /// @param to Recipient address
     /// @param value Amount of tokens
-    function _update(address from, address to, uint256 value) internal override {
+    function _update(
+        address from,
+        address to,
+        uint256 value
+    ) internal override {
         // Security checks
         if (isBlacklisted[from] || isBlacklisted[to]) revert BlacklistedAddress();
         if (tradingPaused) revert TradingPausedError();
 
         // Anti-whale limits
-        if (
-            !isExcludedFromLimits[from]
-                && !isExcludedFromLimits[to]
-                && from != address(0)
-                && to != address(0)
-        ) {
+        if (!isExcludedFromLimits[from] && !isExcludedFromLimits[to] && from != address(0) && to != address(0)) {
             if (value > maxTx) revert MaxTxExceeded();
             if (to != dexPair) {
                 if (balanceOf(to) + value > maxWallet) revert MaxWalletExceeded();

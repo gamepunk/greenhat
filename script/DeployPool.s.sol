@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import {Script, console} from "forge-std/Script.sol";
-import {GreenHat} from "../src/GreenHat.sol";
-import {GreenHatPool} from "../src/GreenHatPool.sol";
+import { GreenHat } from "../src/GreenHat.sol";
+import { GreenHatPool } from "../src/GreenHatPool.sol";
+import { Script, console } from "forge-std/Script.sol";
 
 /// @title DeployPool Script
 /// @notice Deploys GREEN/POL pool with 10% supply as initial liquidity
@@ -40,7 +40,7 @@ contract DeployPoolScript is Script {
         console.log(unicode"✅ GREEN approved");
 
         // 3. Add liquidity (POL sent as msg.value)
-        pool.addLiquidity{value: liqPol}(liqGreen);
+        pool.addLiquidity{ value: liqPol }(liqGreen);
         console.log(unicode"✅ Liquidity added!");
 
         vm.stopBroadcast();

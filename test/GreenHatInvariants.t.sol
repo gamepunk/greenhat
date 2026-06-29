@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import {Test} from "forge-std/Test.sol";
-import {console} from "forge-std/console.sol";
-import {GreenHat} from "../src/GreenHat.sol";
-import {Ownable} from "openzeppelin-contracts/contracts/access/Ownable.sol";
+import { GreenHat } from "../src/GreenHat.sol";
+import { Test } from "forge-std/Test.sol";
+import { console } from "forge-std/console.sol";
+import { Ownable } from "openzeppelin-contracts/contracts/access/Ownable.sol";
 
 /// @title GreenHat Invariant Tests
 /// @notice These tests define properties that must ALWAYS hold true,
@@ -57,10 +57,8 @@ contract GreenHatInvariants is Test {
         // We can't iterate all addresses, but we can assert key relationships.
         // The ERC20 implementation guarantees this, but we verify our _update override
         // doesn't break it. We track deployer + alice + bob + potentially contract.
-        uint256 total = token.balanceOf(deployer)
-            + token.balanceOf(alice)
-            + token.balanceOf(bob)
-            + token.balanceOf(address(token));
+        uint256 total =
+            token.balanceOf(deployer) + token.balanceOf(alice) + token.balanceOf(bob) + token.balanceOf(address(token));
         // Other addresses may hold tokens too, so total should be <= totalSupply
         assertLe(total, token.totalSupply());
     }

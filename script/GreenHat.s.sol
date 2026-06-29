@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import {Script, console} from "forge-std/Script.sol";
-import {GreenHat} from "../src/GreenHat.sol";
+import { GreenHat } from "../src/GreenHat.sol";
+import { Script, console } from "forge-std/Script.sol";
 
 /// @title GreenHat Deployment Script
 /// @notice Deploy GreenHat to any EVM chain with one command
@@ -67,7 +67,9 @@ contract GreenHatScript is Script {
     }
 
     /// @notice Return human-readable chain name
-    function _chainName(uint256 chainId) internal pure returns (string memory) {
+    function _chainName(
+        uint256 chainId
+    ) internal pure returns (string memory) {
         if (chainId == 1) return "Ethereum Mainnet";
         if (chainId == 56) return "BNB Smart Chain";
         if (chainId == 137) return "Polygon Mainnet";
@@ -81,7 +83,10 @@ contract GreenHatScript is Script {
     }
 
     /// @notice Return explorer link for verifying
-    function _explorerUrl(uint256 chainId, address token) internal pure returns (string memory) {
+    function _explorerUrl(
+        uint256 chainId,
+        address token
+    ) internal pure returns (string memory) {
         string memory base;
         if (chainId == 1) base = "https://etherscan.io/address/";
         else if (chainId == 56) base = "https://bscscan.com/address/";
