@@ -7,7 +7,6 @@
   ],
   "filter_paths": "(lib/|test/|script/)",
   "compile_force_framework": "foundry",
-  "compile_working_dir": ".",
   "solc_remaps": [
     "forge-std/=lib/forge-std/src/",
     "openzeppelin-contracts/=lib/openzeppelin-contracts/"
