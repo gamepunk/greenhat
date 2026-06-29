@@ -163,7 +163,10 @@ export default function Home() {
     <div style={styles.container}>
       {/* Header */}
       <div style={styles.header}>
-        <div style={styles.title}>🧢 GreenHat</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <img src="/token.svg" alt="GreenHat" style={{ width: 36, height: 36, borderRadius: 8 }} />
+          <div style={styles.title}>GreenHat</div>
+        </div>
         <button style={styles.badge(!!account)} onClick={account ? disconnect : connect}>
           {account ? short(account) : "Connect Wallet"}
         </button>
