@@ -1,6 +1,6 @@
-# 🧢 GreenHat
+# GreenHat
 
-> The greenest meme coin on EVM. No promises, just vibes. 🌿
+> The greenest meme coin on EVM. No promises, just vibes.
 
 [![CI](https://github.com/gamepunk/greenhat/actions/workflows/test.yml/badge.svg)](https://github.com/gamepunk/greenhat/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/gamepunk/greenhat/branch/main/graph/badge.svg)](https://codecov.io/gh/gamepunk/greenhat)

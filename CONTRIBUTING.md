@@ -1,8 +1,8 @@
-# Contributing to GreenHat 🧢
+# Contributing to GreenHat
 
 Thanks for your interest in contributing! This document outlines the guidelines.
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
 # Clone & install
@@ -18,7 +18,7 @@ forge test -vvv
 forge coverage --report summary
 ```
 
-## 🛠️ Development Workflow
+## Development Workflow
 
 ### 1. Branch Naming
 
@@ -76,19 +76,19 @@ Examples:
 - Ensure CI passes (lint → build → test → coverage)
 - Update documentation if needed
 
-## 🧪 Testing Guidelines
+## Testing Guidelines
 
 - **Unit tests**: Cover all public/external functions
 - **Fuzz tests**: Cover edge cases with random inputs
 - **Revert tests**: Test all error paths
 - **Coverage target**: ≥95% lines for `src/`
 
-## 🔒 Security
+## Security
 
 - Report vulnerabilities to the security email (see `SECURITY.md`)
 - Do not open public issues for security bugs
 - All smart contract changes require Slither scan
 
-## 📄 License
+## License
 
 By contributing, you agree that your contributions will be licensed under the MIT License.

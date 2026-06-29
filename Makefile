@@ -1,4 +1,4 @@
-# GreenHat 🧢 Makefile
+# GreenHat Makefile
 # Usage:
 #   make test        — Run tests
 #   make coverage    — Coverage report

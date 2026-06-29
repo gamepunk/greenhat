@@ -1,0 +1,53 @@
+/* GreenHat Web — Global Styles */
+
+:root {
+  --bg: #0a0a1a;
+  --surface: #12122a;
+  --surface2: #1a1a3e;
+  --green: #00ff88;
+  --green-dim: #00cc66;
+  --text: #e0e0e0;
+  --text-dim: #8888aa;
+  --border: #2a2a5a;
+  --danger: #ff4466;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "Inter", -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+input, button { font: inherit; }
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+input {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--text);
+  width: 100%;
+}
+
+input:focus { outline: none; border-color: var(--green); }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+}

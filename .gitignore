@@ -39,3 +39,7 @@ coverage/
 # Generated docs (forge doc) — keep config, ignore built content
 docs/book/
 docs/src/
+
+# Frontend dependencies & build
+web/node_modules/
+web/.next/
