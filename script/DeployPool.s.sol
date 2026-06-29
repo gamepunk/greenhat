@@ -20,8 +20,8 @@ contract DeployPoolScript is Script {
         address deployer = vm.addr(pk);
         address tokenAddr = vm.envAddress("GREENHAT_TOKEN");
 
-        uint256 liqGreen = 50_000_000 * 10 ** 18; // 5% of supply
-        uint256 liqPol = 0.05 ether; // 0.05 POL
+        uint256 liqGreen = 10_000_000 * 10 ** 18; // 1% of supply
+        uint256 liqPol = 0.01 ether; // 0.01 POL
 
         console.log("=== GREEN/POL Liquidity Pool ===");
         console.log("Token:            ", tokenAddr);
